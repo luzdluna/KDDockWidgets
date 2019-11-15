@@ -357,6 +357,8 @@ private Q_SLOTS:
     void tst_staticAnchorThickness();
     void tst_honourGeometryOfHiddenWindow();
 
+    void tst_minimizeButtonVisibility();
+
 private:
     std::unique_ptr<MultiSplitter> createMultiSplitterFromSetup(MultiSplitterSetup setup, QHash<QWidget *, Frame *> &frameMap) const;
 };
@@ -4352,6 +4354,31 @@ void TestDocks::tst_honourGeometryOfHiddenWindow()
 
     QCOMPARE( d1->window()->geometry(), suggestedGeo);
     delete d1->window();
+}
+
+void TestDocks::tst_minimizeButtonVisibility()
+{
+    EnsureTopLevelsDeleted e;
+
+    auto d1 = new DockWidget("1");
+    FloatingWindow *fw = d1->morphIntoFloatingWindow();
+
+    QVERIFY(!fw->titleBar()->isMinimizeButtonVisible());
+    QVERIFY(fw->titleBar()->isMinimizeButtonEnabled());
+
+    MainWindow m("m1");
+    m.show();
+    m.addDockWidget(d1, Location_OnTop);
+
+    QVERIFY(d1->titleBar()->isMinimizeButtonVisible());
+    QVERIFY(d1->titleBar()->isMinimizeButtonEnabled());
+
+    d1->setFloating(true);
+
+    QVERIFY(!d1->titleBar()->isMinimizeButtonVisible());
+    QVERIFY(d1->titleBar()->isMinimizeButtonEnabled());
+
+    Testing::waitForDeleted(fw);
 }
 
 void TestDocks::tst_rectForDropCrash()

@@ -59,12 +59,15 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *) override;
     void updateFloatButton() override;
     void updateCloseButton() override;
+    void updateMinimizeButton() override;
 
      // The following are needed for the unit-tests
     bool isCloseButtonVisible() const override;
     bool isCloseButtonEnabled() const override;
     bool isFloatButtonVisible() const override;
     bool isFloatButtonEnabled() const override;
+    bool isMinimizeButtonVisible() const override;
+    bool isMinimizeButtonEnabled() const override;
 
 private:
     void init();
@@ -73,6 +76,7 @@ private:
     QRect iconRect() const;
 
     QHBoxLayout *const m_layout;
+    QAbstractButton *m_minimizeButton = nullptr;
     QAbstractButton *m_closeButton = nullptr;
     QAbstractButton *m_floatButton = nullptr;
     QLabel *m_dockWidgetIcon = nullptr;

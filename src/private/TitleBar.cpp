@@ -30,6 +30,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QTimer>
 
 using namespace KDDockWidgets;
 
@@ -40,7 +41,9 @@ TitleBar::TitleBar(Frame *parent)
     , m_floatingWindow(nullptr)
 {
     connect(m_frame, &Frame::numDockWidgetsChanged, this, &TitleBar::updateCloseButton);
+    connect(m_frame, &Frame::isInMainWindowChanged, this, &TitleBar::updateMinimizeButton);
     init();
+    QTimer::singleShot(0, this, &TitleBar::updateMinimizeButton); // have to wait after the frame is constructed
 }
 
 TitleBar::TitleBar(FloatingWindow *parent)
@@ -52,6 +55,7 @@ TitleBar::TitleBar(FloatingWindow *parent)
     connect(m_floatingWindow, &FloatingWindow::numFramesChanged, this, &TitleBar::updateCloseButton);
     connect(m_floatingWindow, &FloatingWindow::numFramesChanged, this, &TitleBar::updateFloatButton);
     init();
+    updateMinimizeButton(); // always hidden when we're in a FloatingWindow.
 }
 
 void TitleBar::init()
@@ -143,6 +147,12 @@ bool TitleBar::supportsFloatingButton() const
     return !m_floatingWindow || m_floatingWindow->hasSingleFrame();
 }
 
+bool TitleBar::supportsMinimizeButton() const
+{
+    // Only dock widgets docked into the MainWindow can minimize
+    return m_frame && m_frame->isInMainWindow();
+}
+
 bool TitleBar::hasIcon() const
 {
     return !m_icon.isNull();
@@ -221,4 +231,9 @@ void TitleBar::onFloatClicked()
     } else {
         makeWindow();
     }
+}
+
+void TitleBar::onMinimizeClicked()
+{
+
 }
