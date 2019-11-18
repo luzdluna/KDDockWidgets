@@ -254,7 +254,7 @@ void DockWidgetBase::setTitle(const QString &title)
     if (title != d->title) {
         d->title = title;
         d->updateTitle();
-        Q_EMIT titleChanged();
+        Q_EMIT titleChanged(title);
     }
 }
 
@@ -315,6 +315,12 @@ TitleBar *DockWidgetBase::titleBar() const
     return nullptr;
 }
 
+void DockWidgetBase::minimize()
+{
+    if (MainWindowBase *m = mainWindow())
+        m->minimizeDockWidget(this);
+}
+
 FloatingWindow *DockWidgetBase::morphIntoFloatingWindow()
 {
     qCDebug(creation) << "DockWidget::morphIntoFloatingWindow() this=" << this
@@ -360,6 +366,12 @@ Frame *DockWidgetBase::frame() const
 FloatingWindow *DockWidgetBase::floatingWindow() const
 {
     return qobject_cast<FloatingWindow*>(window());
+}
+
+MainWindowBase *DockWidgetBase::mainWindow() const
+{
+    Frame *f = frame();
+    return f ? f->mainWindow() : nullptr;
 }
 
 void DockWidgetBase::addPlaceholderItem(Item *item)

@@ -235,5 +235,12 @@ void TitleBar::onFloatClicked()
 
 void TitleBar::onMinimizeClicked()
 {
-
+    if (m_frame) {
+        const auto &dockwidgets = m_frame->dockWidgets();
+        for (DockWidgetBase *dw : dockwidgets)
+            dw->minimize();
+    } else {
+        // Doesn't happen
+        qWarning() << Q_FUNC_INFO << "Minimize not supported on floating windows";
+    }
 }

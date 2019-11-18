@@ -29,6 +29,7 @@
 #include "DropArea_p.h"
 #include "Frame_p.h"
 #include "Logging_p.h"
+#include "private/widgets/SideBarWidget_p.h"
 #include "DropAreaWithCentralFrame_p.h"
 #include "multisplitter/MultiSplitterLayout_p.h"
 #include "multisplitter/MultiSplitter_p.h"
@@ -44,12 +45,13 @@ class MainWindow::Private
 public:
     explicit Private(MainWindowOptions options, MainWindowBase *mainWindow)
         : m_dropArea(new DropAreaWithCentralFrame(mainWindow, options))
+        , m_sideBar(new SideBarWidget(Qt::Horizontal, mainWindow))
     {
     }
 
     DropAreaWithCentralFrame *const m_dropArea;
+    SideBar *const m_sideBar;
 };
-
 
 namespace KDDockWidgets {
 class MyCentralWidget : public QWidget
@@ -84,6 +86,7 @@ MainWindow::MainWindow(const QString &name, MainWindowOptions options,
     auto layout = new QVBoxLayout(centralWidget);
     layout->setContentsMargins(1, 5, 1, 1);
     layout->addWidget(dropArea()); // 1 level of indirection so we can add some margins
+    layout->addWidget(d->m_sideBar);
     setCentralWidget(centralWidget);
 
     // qApp->installEventFilter(this);
@@ -97,4 +100,9 @@ MainWindow::~MainWindow()
 DropAreaWithCentralFrame *MainWindow::dropArea() const
 {
     return d->m_dropArea;
+}
+
+SideBar *MainWindow::sideBar() const
+{
+    return d->m_sideBar;
 }

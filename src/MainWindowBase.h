@@ -43,6 +43,7 @@ class Frame;
 class DropArea;
 class MultiSplitterLayout;
 class DropAreaWithCentralFrame;
+class SideBar;
 
 /**
  * @brief The MainWindow base-class. MainWindow and MainWindowBase are only
@@ -100,8 +101,13 @@ public:
     ///@brief returns the MultiSplitterLayout.
     MultiSplitterLayout* multiSplitterLayout() const;
 
+    ///@brief Minimizes dock widget @p into the side bar
+    void minimizeDockWidget(DockWidgetBase *dw);
+
 protected:
     void setUniqueName(const QString &uniqueName);
+
+    virtual SideBar* sideBar() const = 0;
 
 Q_SIGNALS:
     void uniqueNameChanged();

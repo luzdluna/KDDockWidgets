@@ -32,6 +32,8 @@
 
 namespace KDDockWidgets {
 
+class SideBar;
+
 /**
  * @brief The QMainwindow sub-class that the application should use to be able
  * to dock KDDockWidget::DockWidget instances.
@@ -56,6 +58,9 @@ public:
 
     ///@internal
     DropAreaWithCentralFrame *dropArea() const override;
+
+    ///@brief returns the sidebar
+    SideBar *sideBar() const override;
 
 private:
     class Private;

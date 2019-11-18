@@ -37,6 +37,7 @@ set(DOCKSLIBS_SRCS
     private/FloatingWindow.cpp
     private/Logging.cpp
     private/TitleBar.cpp
+    private/SideBar.cpp
     private/DebugWindow.cpp
     private/DockRegistry.cpp
     private/Draggable.cpp
@@ -72,7 +73,8 @@ set(DOCKS_INSTALLABLE_PRIVATE_WIDGET_INCLUDES
     private/widgets/QWidgetAdapter_widgets_p.h
     private/widgets/TitleBarWidget_p.h
     private/widgets/SeparatorWidget_p.h
-        private/widgets/FloatingWindowWidget_p.h
+    private/widgets/SideBarWidget_p.h
+    private/widgets/FloatingWindowWidget_p.h
     private/widgets/FrameWidget_p.h
     private/widgets/TabBarWidget_p.h
     private/widgets/TabWidgetWidget_p.h
@@ -97,6 +99,7 @@ if (OPTION_QTQUICK)
 else()
     set(DOCKSLIBS_SRCS ${DOCKSLIBS_SRCS}
         private/widgets/SeparatorWidget.cpp
+        private/widgets/SideBarWidget.cpp
         private/widgets/TabBarWidget.cpp
         private/widgets/FloatingWindowWidget.cpp
         private/widgets/FrameWidget.cpp

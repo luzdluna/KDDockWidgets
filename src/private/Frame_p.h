@@ -45,6 +45,7 @@ class DropArea;
 class DockWidgetBase;
 class Item;
 class FloatingWindow;
+class MainWindowBase;
 
 /**
  * @brief A DockWidget wrapper that adds a QTabWidget and a TitleBar
@@ -143,9 +144,11 @@ public:
     /// @brief returns whether the dockwidget @p w is inside this frame
     bool contains(DockWidgetBase *w) const;
 
-
     ///@brief returns the FloatingWindow this frame is in, if any
     FloatingWindow *floatingWindow() const;
+
+    ///@brief returns the MainWindow this frame is in, if any
+    MainWindowBase *mainWindow() const;
 
     /**
      * @brief Puts the Frame back in its previous main window position

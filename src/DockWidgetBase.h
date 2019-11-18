@@ -51,6 +51,7 @@ class DockRegistry;
 class LayoutSaver;
 class TabWidget;
 class TitleBar;
+class MainWindowBase;
 
 /**
  * @brief The DockWidget base-class. DockWidget and DockWidgetBase are only
@@ -223,6 +224,15 @@ public:
      */
     TitleBar *titleBar() const;
 
+
+    /**
+     * @brief Minimizes this dock widget.
+     *
+     * It will appear in the MainWindow's side bar.
+     * This action is only available if the dock widget is docked.
+     */
+    void minimize();
+
 Q_SIGNALS:
     ///@brief signal emitted when the parent changed
     void parentChanged();
@@ -237,7 +247,7 @@ Q_SIGNALS:
     void iconChanged();
 
     ///@brief signal emitted when the title changed
-    void titleChanged();
+    void titleChanged(const QString &);
 
     ///@brief emitted when the hosted widget changed
     void widgetChanged(QWidget*);
@@ -298,6 +308,11 @@ private:
      * the dock widget might be in a floating window with other dock widgets side by side.
      */
     FloatingWindow *floatingWindow() const;
+
+    /**
+     * @brief returns the MainWindow this dock widget is in, nullptr if it's floating.
+     */
+    MainWindowBase *mainWindow() const;
 
     ///@brief adds the current layout item containing this dock widget
     void addPlaceholderItem(Item*);

@@ -30,6 +30,7 @@
 #include "DockRegistry_p.h"
 #include "DropArea_p.h"
 #include "Frame_p.h"
+#include "SideBar_p.h"
 #include "Logging_p.h"
 #include "DropAreaWithCentralFrame_p.h"
 #include "multisplitter/MultiSplitterLayout_p.h"
@@ -98,6 +99,14 @@ MainWindowOptions MainWindowBase::options() const
 MultiSplitterLayout *MainWindowBase::multiSplitterLayout() const
 {
     return dropArea()->multiSplitterLayout();
+}
+
+void MainWindowBase::minimizeDockWidget(DockWidgetBase *dw)
+{
+    if (SideBar *sb = sideBar()) {
+        dw->forceClose();
+        sb->addDockWidget(dw);
+    }
 }
 
 void MainWindowBase::setUniqueName(const QString &uniqueName)

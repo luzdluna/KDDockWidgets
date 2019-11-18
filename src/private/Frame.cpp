@@ -261,6 +261,12 @@ FloatingWindow *Frame::floatingWindow() const
     return qobject_cast<FloatingWindow*>(window());
 }
 
+MainWindowBase *Frame::mainWindow() const
+{
+    return m_dropArea ? m_dropArea->mainWindow()
+                      : nullptr;
+}
+
 void Frame::restoreToPreviousPosition()
 {
     if (hasSingleDockWidget()) {
@@ -446,7 +452,7 @@ bool Frame::isInFloatingWindow() const
 
 bool Frame::isInMainWindow() const
 {
-    return m_dropArea && m_dropArea->isInMainWindow();
+    return mainWindow() != nullptr;
 }
 
 int Frame::dockWidgetCount() const
