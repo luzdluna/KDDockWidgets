@@ -462,7 +462,7 @@ public:
     bool hasSingleVisibleItem() const;
     bool contains(const Item *item) const;
     bool contains_recursive(const Item *item) const;
-    void setChildren(const Item::List children, Qt::Orientation o);
+    void setChildren(const List &children, Qt::Orientation o);
     void setOrientation(Qt::Orientation);
     QSize minSize() const override;
     QSize maxSize() const override;
