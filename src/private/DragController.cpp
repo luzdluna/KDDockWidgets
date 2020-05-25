@@ -514,12 +514,14 @@ QWidgetOrQuick *DragController::qtTopLevelUnderCursor() const
     return nullptr;
 }
 
-static DropArea* deepestDropAreaInTopLevel(QWidget *topLevel, QPoint globalPos)
+static DropArea* deepestDropAreaInTopLevel(QWidget *topLevel, QPoint globalPos,
+                                           const QStringList &affinities)
 {
     auto w = topLevel->childAt(topLevel->mapFromGlobal(globalPos));
     while (w) {
         if (auto dt = qobject_cast<DropArea *>(w)) {
-            return dt;
+            if (DockRegistry::self()->affinitiesMatch(dt->affinities(), affinities))
+                return dt;
         }
         w = w->parentWidget();
     }
@@ -552,8 +554,11 @@ DropArea *DragController::dropAreaUnderCursor() const
         return fw->dropArea();
     }
 
-    if (auto dt = deepestDropAreaInTopLevel(topLevel, QCursor::pos()))
+    const QStringList affinities = m_windowBeingDragged->floatingWindow()->affinities();
+
+    if (auto dt = deepestDropAreaInTopLevel(topLevel, QCursor::pos(), affinities)) {
         return dt;
+    }
 
     qCDebug(state) << "DragController::dropAreaUnderCursor: null2";
     return nullptr;
